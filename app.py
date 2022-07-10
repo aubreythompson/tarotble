@@ -6,7 +6,9 @@ app = Flask(__name__)
 api = Api(app)
 from musixmatch import Musixmatch
 import json
+import os
 
+#APIKEY = os.getenv('MUSIXMATCH_API_KEY')
 APIKEY = '928dadc5c67821e645b1e38b6a414ddb'
 url = 'https://api.musixmatch.com/ws/1.1/'
 musixmatch = Musixmatch(APIKEY)
@@ -39,8 +41,8 @@ def lyrics():
   #  lyrics_dict = json.loads(lyrics_json)
     if lyrics_dict['message']['header']['status_code']==200:
         lyrics = lyrics_dict['message']['body']['lyrics']['lyrics_body']
-        # gens = generator("""I need your love and I need your touch""", max_length=50, num_return_sequences=1)
-        # print('length', len(gens))
+        #gens = generator(lyrics + ' what ', max_length=200, num_return_sequences=1,temperature=.6)
+        
         return {'data': lyrics}, 200
     else:
         return {'message': "We couldn't find " + track + ' by ' + artist + ', sorry.'}, 401
