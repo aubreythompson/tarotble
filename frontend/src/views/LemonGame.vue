@@ -10,17 +10,24 @@
         </header>
         <div v-if="true">
             <div id="board-text">
-               <!-- <p> woah coothingl: {{artist}} </p>
+                <!-- <p> woah coothingl: {{artist}} </p>
                      <p> woah again: {{track}} </p>
-               -->
+                -->
                 <input v-model="artist" placeholder="artist">
                 <input v-model="track" placeholder="track">
+                <div v-if="tarotReading==''">
+                How can a song shape your day?
+
+                Choose a song that is calling to you today. Maybe you woke up with it stuck in your head, or it was in your dream. Maybe it's playing on the radio (where did you get one of those?) or in a tiktok you just watched. Maybe it was the first one to come up on shuffle in a playlist you love.
+
+                Input the song title and artist and read the resulting text. Read it again, read it a third time. How do you think it predicts the day? What intention can you set from it? Does it uncover a hope, a dream, a fear? Close your eyes, listen to your chosen song, and breathe.
+
+                We hope you have a ✨tarotble✨ day
+                </div>
                 {{ tarotReading }}
             </div>
             <button v-if="true" @click="callAubreyCode" class="button-1"> Enter Song </button>
         </div>
-        
-
         <div v-if="false">
             <div id="board-text">
                 What can you make from lemons? <br>

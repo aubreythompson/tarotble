@@ -34,9 +34,9 @@ def lyrics():
         print('lyrics', lyrics) # 53
         print('lyrics 60', lyrics[:60])
         prefix_text = '. Please reflect today on your life on your future on opportunity on beauty.'
-        gens = generator(lyrics[:60] + prefix_text, max_length=173, num_return_sequences=1, temperature=.8)
+        gens = generator(lyrics[:500] + prefix_text, max_length=1000, num_return_sequences=1, temperature=.8)
         print('gens', gens)
-        return {'data': gens[0]['generated_text'][(60 + len(prefix_text)):]}, 200
+        return {'data': gens[0]['generated_text'][(500 + len(prefix_text)):]}, 200
     if lyrics_dict['message']['header']['status_code']==404:
         return {'message': "We couldn't find " + track + ' by ' + artist + ', sorry.'}, 404
     else:
