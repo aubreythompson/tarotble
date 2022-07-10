@@ -15,11 +15,13 @@
                -->
                 <input v-model="artist" placeholder="artist">
                 <input v-model="track" placeholder="track">
+                {{ tarotReading }}
             </div>
             <button v-if="true" @click="callAubreyCode" class="button-1"> Enter Song </button>
         </div>
+        
 
-        <div v-if="False">
+        <div v-if="false">
             <div id="board-text">
                 What can you make from lemons? <br>
                 <br>
@@ -35,7 +37,7 @@
             </div>
             <button v-if="roundNumber < 4" @click="startGame" class="button-1"> I'm Ready! </button>
         </div>
-        <div v-else-if="False">
+        <div v-else-if="false">
             <div id="board-text">
                 <div v-for="(round,i) in rounds">
                     Round {{round.roundNumber}}! Time: {{round.time}}, Score: {{score(round)}} <br>
@@ -53,7 +55,7 @@
             <button v-if="roundNumber < 4" @click="startGame" class="button-1"> I'm Ready! </button>
             <button v-else-if="roundNumber === 4" @click="shareGame" class="button-1"> Share Results! </button>
         </div>
-        <div v-else-if="False">
+        <div v-else-if="false">
             <div> Round: {{roundNumber}} </div>
             <div > {{time}} </div>
             <div id="board">
@@ -95,6 +97,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import dict from '!raw-loader!../assets/dict.txt';
+import axios from 'axios';
 
 interface LetterState {
     letter: string;
@@ -120,6 +123,7 @@ interface RoundData {
 export default class LemonGame extends Vue {
     private artist: string = '';
     private track: string = '';
+    private tarotReading = '';
     private time: string =  '00:00:00.000';
     private gameStarted: boolean = false;
     private gameTimer: number = 0;
@@ -148,6 +152,7 @@ export default class LemonGame extends Vue {
             this.dictSet.add(word);
         }
     }
+
     private loadRound() {
         let letters: string = '';
         if (this.roundNumber === 1) {
@@ -171,11 +176,23 @@ export default class LemonGame extends Vue {
         }
         this.roundReady = false;
     }
-    private callAubreyCode() {
-        this.showMessage('Aubrey is cute ' + this.artist + ' ' + this.track);
+    private async callAubreyCode() {
         // call api with axios probably or something
+        if (this.track === '' || this.artist === '') {
+            this.showMessage('Both the artist and track names must be provided.');
+            return
+        }
+        try {
+            let response = await axios.get('http://localhost:5000/lyrics',
+                                           {params: {track: this.track, artist: this.artist}});
+            console.log(response);
+            this.tarotReading = response['data']['data'];
+        } catch (err) {
+            console.log(err);
+            this.showMessage(err['response']['data']['message']);
+        }
     }
-    private showMessage(msg: string, time = 1000) {
+    private showMessage(msg: string, time = 2000) {
         this.message = msg;
         if (time > 0) {
             setTimeout(() => {
@@ -531,7 +548,7 @@ body {
 }
 /* CSS */
 .button-1 {
-    background-color: #fcc219;
+    background-color: #8f5cc4;
     border-radius: 8px;
     border-style: none;
     box-sizing: border-box;
