@@ -5,7 +5,7 @@ module.exports = {
     port: 8081,
     proxy: {
       '/BananaService/': {
-          target: 'http://localhost:8080',
+          target: 'http://localhost:8081',
       },
     }
   },
